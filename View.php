@@ -79,10 +79,10 @@ class View {
 
 
 	/*
-	infra_html() получить весь html
-	infra_html($html) Добавить html снизу всего 
-	infra_html($html,true) Установить новый html 
-	infra_html($html,$id) Добавить html в блок с id=$id 
+	View::html() получить весь html
+	View::html($html) Добавить html снизу всего 
+	View::html($html,true) Установить новый html 
+	View::html($html,$id) Добавить html в блок с id=$id 
 	 */
 	public static $js='';
 	public static $html='';
