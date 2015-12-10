@@ -86,14 +86,6 @@ class View {
 	 */
 	public static $js='';
 	public static $html='';
-	public static $unick=0;
-	public static function unick()
-	{
-		$t = time();
-		while ($t <= static::$unick) $t++;
-		static::$unick = $t;
-		return $t;
-	}
 	public static function json($src = null)
 	{
 		if (is_null($src)) return static::$js;
