@@ -1,5 +1,4 @@
 {
 	"view":{
-		"require":"*view/infra.php"
 	}
 }
