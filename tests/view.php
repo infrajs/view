@@ -2,7 +2,10 @@
 namespace infrajs\view;
 use infrajs\ans\Ans;
 
-require_once('../../../../vendor/autoload.php');
+if (!is_file('vendor/autoload.php')) {
+	chdir('../../../../');
+	require_once('vendor/autoload.php');
+}
 
 $ans = array();
 $ans['title'] = 'Проверка методов view';
