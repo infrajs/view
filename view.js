@@ -229,7 +229,7 @@ infra.view={
 			//})(); 
 			//htmlexec.busy=false;
 
-			/*infra.load(script.src,'ea',function(){
+			/* infra.load(script.src,'ea',function(){
 				htmlexec.busy=false;
 			});*/
 		}else{ 

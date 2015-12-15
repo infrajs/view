@@ -1,9 +1,11 @@
 <?php
 namespace infrajs\view;
-use infrajs\infra\Load;
+use infrajs\load\Load;
+use infrajs\path\Path;
 
-View::$conf = array(
-	'load' => function ($str) {
-		return Load::loadTEXT($str);
+View::$conf['load'] = function ($str) {
+	if(!Path::theme($str)) {
+		throw new \Exception('Не найден файл '.$str);
 	}
-);
+	return Load::loadTEXT($str);
+};
