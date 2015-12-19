@@ -1,10 +1,9 @@
 <?php
 namespace infrajs\view;
-
+use infrajs\path\Path;
+use infrajs\load\Load;
 class View {
-	public static $conf=array(
-		'js'=>array()
-	);
+	public static $loaded=array();
 	public static function getHost()
 	{
 		return $_SERVER['HTTP_HOST'];
@@ -89,23 +88,31 @@ class View {
 	public static function json($src = null)
 	{
 		if (is_null($src)) return static::$js;
-		$conf=static::$conf;
-		if(!empty($conf['js'][$src])) return;
+		
+		if(!empty(static::$loaded[$src])) return;
+		static::$loaded[$src]=true;
 
-		$conf['js'][$src]=true;
 		static::$js .= "\n\n".'//require json '.$src."\n";
-		static::$js .= $conf['load']($src).';';
-		static::$js .= $conf['jsonfix']($src);
+		static::$js .= static::load($src).';';
 	}
 	public static function js($src = null){
 		if (is_null($src)) return static::$js;
-		$conf=static::$conf;
-		if(!empty($conf['js'][$src])) return;
-		$conf['js'][$src]=true;
+		if(!empty(static::$loaded[$src])) return;
+		static::$loaded[$src]=true;
 
 		static::$js .= "\n\n".'//require js '.$src."\n";
-		static::$js .= $conf['load']($src);
-		static::$js .= $conf['jsfix']($src);
+		static::$js .= static::load($src).';';
+	}
+	public static function load($src){
+		
+		if(!Path::theme($src)) {
+			
+			echo '<pre>';
+			echo $src;
+			throw new \Exception('Не найден файл '.$src);
+		}
+
+		return Load::loadTEXT($src);
 	}
 	public static function html($html = null, $id = null)
 	{
@@ -141,17 +148,3 @@ class View {
 		}
 	}
 }
-
-View::$conf = array(
-	'load' => function ($str) {
-		return file_get_contents($str);
-	},
-	'jsfix' => function ($src) {
-		return '';
-		return 'infra.store("require")["'.$src.'"]={value:true};'; //код отметки о выполненных файлах
-	},
-	'jsonfix' => function($src){
-		return '';
-		return 'infra.store("loadJSON")["'.$src.'"]={status:"pre"};infra.store("loadJSON")["'.$src.'"].value = obj'; //код отметки о выполненных файлах
-	}
-);

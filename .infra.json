@@ -1,6 +1,3 @@
 {
-	"view":{
-		"require":"-view/infra.php",
-		"tester":"-view/tests/"
-	}
+	"tester":"tests/"
 }
