@@ -131,7 +131,7 @@ class View {
 		$t = '·';
 		while (strpos(static::$html, $t) !== false) {
 			//Смотрим нет ли указанного символа в шаблоне, если нет то можно его использовать в качестве временной замены
-			$t = static::unick();
+			$t = $t.'#';
 		}
 		$storhtml = preg_replace("/[\r\n]/", $t, static::$html);
 		preg_match('/(.*?id *= *["\']'.$id.'["\'].*?>)(.*)/i', $storhtml, $m);
