@@ -10,11 +10,10 @@ if (!is_file('vendor/autoload.php')) {
 $ans = array();
 $ans['title'] = 'Проверка методов view';
 
-
-$val = View::getCookie('test2');
+View::setCookie('test',true);
+$val = View::getCookie('test');
 if (!$val) {
-	View::setCookie('test2',true);
-	return Ans::err($ans, 'Неудалось восстановить значение из COOKIE. Требуется F5');
+	return Ans::err($ans, 'Неудалось восстановить значение из COOKIE');
 }
 
 return Ans::ret($ans);
