@@ -114,6 +114,18 @@ class View {
 
 		return Load::loadTEXT($src);
 	}
+	public static function head($head = null) //Добавить html в head или в конец
+	{
+		$html = static::html();
+		$r = preg_match('/<\/head>/i', $html);
+		if ($r) {
+
+			$html = preg_replace('/<\/head>/i', "\n\t".$head.'</head>', $html, 1);
+		} else {
+			$html .= $head;
+		}
+		static::html($html,true);
+	}
 	public static function html($html = null, $id = null)
 	{
 		$args = func_get_args();
