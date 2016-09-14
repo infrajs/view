@@ -3,10 +3,10 @@ namespace infrajs\view;
 use infrajs\path\Path;
 use infrajs\load\Load;
 class View {
-	public static $loaded=array();
+	public static $loaded = array();
 	public static function getHost()
 	{
-		return $_SERVER['HTTP_HOST'];
+		return preg_replace('/\/$/','', $_SERVER['HTTP_HOST']);
 	}
 	public static function getSchema()
 	{
