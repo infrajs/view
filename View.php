@@ -30,8 +30,9 @@ class View {
 		if (is_null($name)) {
 			return $_COOKIE;
 		}
-
-		return @$_COOKIE[$name];
+		if (!isset($_COOKIE[$name])) return null;
+		$val = $_COOKIE[$name];
+		return $val;
 	}
 	public static function setCookie($name, $val = null)
 	{
@@ -114,15 +115,23 @@ class View {
 
 		return Load::loadTEXT($src);
 	}
-	public static function head($head = null) //Добавить html в head или в конец
+	public static function head($head = null, $begin = false) //Добавить html в head или в конец
 	{
 		$html = static::html();
-		$r = preg_match('/<\/head>/i', $html);
-		if ($r) {
-
-			$html = preg_replace('/<\/head>/i', "\n\t".$head.'</head>', $html, 1);
+		if ($begin) {
+			$r = preg_match('/<\/head>/i', $html);
+			if ($r) {
+				$html = preg_replace('/<head>/i', '<head>'."\n\t".$head, $html, 1);
+			} else {
+				$html .= $head;
+			}
 		} else {
-			$html .= $head;
+			$r = preg_match('/<\/head>/i', $html);
+			if ($r) {
+				$html = preg_replace('/<\/head>/i', "\n\t".$head.'</head>', $html, 1);
+			} else {
+				$html .= $head;
+			}
 		}
 		static::html($html,true);
 	}
