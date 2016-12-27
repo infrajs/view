@@ -44,7 +44,7 @@ class View {
 			$time = time() + 60 * 60 * 24 * 30 * 24;
 		}
 
-		return setcookie($name, $val, $time, $root);
+		return setcookie($name, $val, $time, $root, static::getHost());
 	}
 	public static function getPath()
 	{

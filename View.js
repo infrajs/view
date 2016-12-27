@@ -1,4 +1,4 @@
-infra.view={
+View = {
 	getPath:function(){//depricated плохо связано с такойже функцией на сервере
 		return location.pathname;
 	},
@@ -67,7 +67,7 @@ infra.view={
 		//var httproot=infra.plugin.getHTTPROOT();//Куки для домена который сейчас в адресной строке
 		//var root=httproot?httproot.siteroot:'/';
 		var root=infra.view.getRoot();
-		var val=name + "=" + escape(val) + '; path=/'+root+'; expires=' + expire.toGMTString();
+		var val=name + "=" + escape(val) + '; path=/'+root+'; expires=' + expire.toGMTString() +'; domain='+location.host;
 		document.cookie = val;
 		return true;
 	},
@@ -116,7 +116,7 @@ infra.view={
 		document.title=title;
 	}
 }
-
+infra.view = View;
 
 /*
  * Вставить элемент с id строку str всё это в сроке html

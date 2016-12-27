@@ -1,4 +1,4 @@
 {
 	"tester":"tests/",
-	"js":"view.js"
+	"js":"View.js"
 }
