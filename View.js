@@ -98,6 +98,7 @@ View = {
 		if(this.GET)return this.GET;
 		var query=this.getQuery();
 		var query=decodeURI(query);
+		query=query.replace(/^\?/,"");
 		var pars=query.split('&');
 		var GET={};
 		for(var i=0,l=pars.length;i<l;i++){
