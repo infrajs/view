@@ -37,7 +37,8 @@ class View {
 	public static function setCookie($name, $val = null)
 	{
 		$_COOKIE[$name] = $val;
-		$root = static::getRoot();
+		//$root = static::getRoot();
+		$root = '/';
 		if (is_null($val)) {
 			$time = time() - 60 * 60 * 24 * 30 * 24;
 		} else {

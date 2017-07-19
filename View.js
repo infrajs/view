@@ -66,8 +66,10 @@ View = {
 		}
 		//var httproot=infra.plugin.getHTTPROOT();//Куки для домена который сейчас в адресной строке
 		//var root=httproot?httproot.siteroot:'/';
-		var root=infra.view.getRoot();
-		var val=name + "=" + escape(val) + '; path=/'+root+'; expires=' + expire.toGMTString();
+		//var root=infra.view.getRoot();
+		var root = '/';
+
+		var val=name + "=" + escape(val) + '; path='+root+'; expires=' + expire.toGMTString();
 		document.cookie = val;
 		return true;
 	},
