@@ -226,8 +226,10 @@ infra.htmlexec=function(script){
 		//(function() { 
 			//var src='http://counter.rambler.ru/top100.jcn?{config.id}';
 			var src=script.src;
-			var ga = document.createElement('script'); ga.type = 'text/javascript'; 
-			ga.async = script.async; 
+			var ga = document.createElement('script'); 
+			ga.type = script.type; 
+			ga.async = script.async;
+			ga.defer = script.defer;
 			ga.src = src;
 			var s = document.getElementsByTagName('script')[0]; 
 			s.parentNode.insertBefore(ga, s); 
@@ -239,7 +241,7 @@ infra.htmlexec=function(script){
 		});*/
 	}else{ 
 		//try{
-			infra.htmlGlobalEval(script.innerHTML); 
+			infra.htmlGlobalEval(script.innerHTML, script.type); 
 		//}catch(e){
 		//	var conf=infra.config();
 		//	if(conf.debug){
@@ -249,28 +251,15 @@ infra.htmlexec=function(script){
 		//htmlexec.busy=false;
 	}
 }
-infra.htmlGlobalEval=function(data) {
-	if(!data)return;
-	var b={};
-	if(typeof(window)!=='undefined'){
-		b.IE=(function (){if(window.opera)return false; var rv = 0;if (navigator.appName == 'Microsoft Internet Explorer') {var ua = navigator.userAgent;var re = new RegExp("MSIE ([0-9]{1,}[\.0-9]{0,})");if (re.exec(ua) != null)rv = parseFloat(RegExp.$1);}return rv;})();
-		b.opera=/opera/.test(navigator.userAgent)||window.opera;
-		b.chrome=/Chrome/.test(navigator.userAgent)
-		b.webkit=/WebKit/.test(navigator.userAgent);
-		b.safari=(b.webkit&&!b.chrome);
-	}
-	// Inspired by code by Andrea Giammarchi
-	// http://webreflection.blogspot.com/2007/08/global-scope-evaluation-and-dom.html
+infra.htmlGlobalEval=function(data, type) {
+	if (!data) return;
 
-	if(b.IE==false&&b.safari==false){
-		window.eval(data);
-	}else{
-		var head = document.getElementsByTagName("head")[0] || document.documentElement, script = document.createElement("script");
-		script.type = "text/javascript";
-		script.text = data;
-		head.insertBefore( script, head.firstChild );
-		head.removeChild( script );
-	}
+	var head = document.getElementsByTagName("head")[0] || document.documentElement, script = document.createElement("script");
+	script.type = type;
+	script.text = data;
+	head.insertBefore( script, head.firstChild );
+	head.removeChild( script );
+	
 }
 
 infra.htmlGetStyle=function(el, cssprop){
