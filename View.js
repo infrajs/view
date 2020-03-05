@@ -1,4 +1,4 @@
-View = {
+window.View = {
 	getPath:function(){//depricated плохо связано с такойже функцией на сервере
 		return location.pathname;
 	},
