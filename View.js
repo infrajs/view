@@ -134,24 +134,22 @@ let View = {
  * id true  заменить весь html
  **/
 
-if (!window.infra) window.infra = {}
-
-infra.htmlclear = function (id) {
+View.htmlclear = function (id) {
 	var el = document.getElementById(id);
 	if (!el) return;
 	el.innerHTML = '';
 	el.style.display = 'none';
 }
-infra.html = function (html, id) {
+View.html = function (html, id) {
 	if (!arguments.length) return document.body.innerHTML;
 
-	this.html.scriptautoexec = false;
-	this.html.styleautoexec = false;
+	View.html.scriptautoexec = false;
+	View.html.styleautoexec = false;
 	var tempid = 'jslibhtml' + infra.htmlGetUnick();//Одинаковый id нельзя.. если будут вложенные вызовы будет ошибка
 
 	html = '<span id="' + tempid + '" style="display:none">' +
 		'<style>#' + tempid + '{ width:3px }</style>' +
-		'<script type="text/javascript">infra.html.scriptautoexec=true;</script>' +
+		'<script type="text/javascript">View.html.scriptautoexec=true;</script>' +
 		'1</span>' + html;
 
 	if (arguments.length == 1) {
@@ -213,6 +211,9 @@ infra.html = function (html, id) {
 	}
 	return res;
 }
+
+if (!window.infra) window.infra = {}
+
 infra.htmlexec = function (script) {
 	if (!script) return;
 	//if(htmlexec.busy){
@@ -280,8 +281,11 @@ infra.htmlGetUnick = function () {
 };
 infra.htmlGetUnick.last_time = 0;
 
-infra.html.scriptautoexec = undefined;//Флаг выполняется ли скрипт сам при вставке html
-infra.html.styleautoexec = undefined;//Флга применяется ли <style> при вставке html
 
+View.html.scriptautoexec = undefined;//Флаг выполняется ли скрипт сам при вставке html
+View.html.styleautoexec = undefined;//Флга применяется ли <style> при вставке html
+
+infra.html = View.html
+infra.html = View.htmlclear
 window.View = infra.view = View
 export { View }
