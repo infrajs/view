@@ -256,9 +256,9 @@ let htmlGlobalEval = (data, type) => {
 	
 	if (!data) return;
 
-	if (type == 'module') {
+	if (type == 'module' && globalThis.globalpromises) {
 		var num = globalThis.globalpromises.length;
-		data += '; globalThis.globalpromises['+num+'].resolve()'	
+		data += '; if (!globalThis.globalpromises['+num+']) delete globalThis.globalpromises; else globalThis.globalpromises['+num+'].resolve();'	
 	}
 	let head = document.getElementsByTagName("head")[0] || document.documentElement
 	let script = document.createElement("script");
@@ -270,7 +270,7 @@ let htmlGlobalEval = (data, type) => {
 		head.removeChild(script);
 	}
 	exec()
-	if (type == 'module') {
+	if (type == 'module' && globalThis.globalpromises) {
 		let resolve
 		globalThis.globalpromises[num] = new Promise(res => resolve = res)
 		globalThis.globalpromises[num].resolve = resolve
