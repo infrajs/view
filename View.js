@@ -140,7 +140,7 @@ View.htmlclear = function (id) {
 	el.innerHTML = '';
 	el.style.display = 'none';
 }
-View.html = function (html, id) {
+View.html = async function (html, id) {
 	if (!arguments.length) return document.body.innerHTML;
 
 	View.html.scriptautoexec = false;
@@ -178,12 +178,8 @@ View.html = function (html, id) {
 		//for (var i = 0,script; script = scripts[i]; i++){
 		//подмена script через document.write или innerHTML изменяет и этот массив scripts
 		for (var i = 0, l = scripts.length; i < l; i++) {
-			(function () {
-				var script = scripts[i];
-				//setTimeout(function(){
-				infra.htmlexec(script);
-				//},1);
-			})()
+			var script = scripts[i];
+			await htmlexec(script);
 		}
 	}
 
@@ -214,7 +210,7 @@ View.html = function (html, id) {
 
 if (!window.infra) window.infra = {}
 
-infra.htmlexec = function (script) {
+let htmlexec = function (script) {
 	if (!script) return;
 	//if(htmlexec.busy){
 	//	setTimeout(function(){
@@ -244,7 +240,7 @@ infra.htmlexec = function (script) {
 		});*/
 	} else {
 		//try{
-		infra.htmlGlobalEval(script.innerHTML, script.type);
+		return htmlGlobalEval(script.innerHTML, script.type);
 		//}catch(e){
 		//	var conf=infra.config();
 		//	if(conf.debug){
@@ -254,15 +250,32 @@ infra.htmlexec = function (script) {
 		//htmlexec.busy=false;
 	}
 }
-infra.htmlGlobalEval = function (data, type) {
+
+globalThis.globalpromises = []
+let htmlGlobalEval = (data, type) => {
+	
 	if (!data) return;
 
-	var head = document.getElementsByTagName("head")[0] || document.documentElement, script = document.createElement("script");
+	if (type == 'module') {
+		var num = globalThis.globalpromises.length;
+		data += '; globalThis.globalpromises['+num+'].resolve()'	
+	}
+	let head = document.getElementsByTagName("head")[0] || document.documentElement
+	let script = document.createElement("script");
 	script.type = type;
 	script.text = data;
-	head.insertBefore(script, head.firstChild);
-	head.removeChild(script);
 
+	let exec = () => {
+		head.insertBefore(script, head.firstChild);
+		head.removeChild(script);
+	}
+	exec()
+	if (type == 'module') {
+		let resolve
+		globalThis.globalpromises[num] = new Promise(res => resolve = res)
+		globalThis.globalpromises[num].resolve = resolve
+		return globalThis.globalpromises[num]
+	}
 }
 
 infra.htmlGetStyle = function (el, cssprop) {
