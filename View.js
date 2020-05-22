@@ -140,8 +140,10 @@ View.htmlclear = function (id) {
 	el.innerHTML = '';
 	el.style.display = 'none';
 }
-View.html = async function (html, id) {
+View.html = async function (html, id, parsed) {
+	//attr в js проверяется а в php устанавллиавется
 	if (!arguments.length) return document.body.innerHTML;
+
 
 	View.html.scriptautoexec = false;
 	View.html.styleautoexec = false;
@@ -165,12 +167,15 @@ View.html = async function (html, id) {
 		console.log('Не найден div id');
 		return;
 	}
-	try {
-		var res = (el.innerHTML = html);
-		el.style.display = '';
-	} catch (e) {
-		el.innerHTML = 'Ошибка, Возможно из-за вставки блочного элемента в строчный или другое какое-то нелогичное действие';
-	}
+
+	/*if (parsed) {
+		//console.log(el.dataset.parsed == parsed, parsed)
+		if (el.dataset.parsed == parsed) return true
+	}*/
+
+	
+	var res = (el.innerHTML = html);
+	el.style.display = '';
 
 	if (!this.html.scriptautoexec) {
 

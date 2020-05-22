@@ -136,7 +136,7 @@ class View {
 		}
 		static::html($html,true);
 	}
-	public static function html($html = null, $id = null)
+	public static function html($html = null, $id = null, $parsed = null)
 	{
 		$args = func_get_args();
 		if (is_null($html)) return static::$html;
@@ -156,11 +156,13 @@ class View {
 			$t = $t.'#';
 		}
 		$storhtml = preg_replace("/[\r\n]/", $t, static::$html);
-		preg_match('/(.*?id *= *["\']'.$id.'["\'].*?>)(.*)/i', $storhtml, $m);
-		if (sizeof($m) === 3) {
-			$hl = $m[1];
+		preg_match('/(.*?)(id *= *["\']'.$id.'["\'])(.*?>)(.*)/i', $storhtml, $m);
+		if (sizeof($m) === 5) {
+			$attr = $m[2];
+			if ($parsed) $attr .= ' data-parsed="'.htmlentities($parsed).'"';
+			$hl = $m[1].$attr.$m[3];
 			$hl = preg_replace('/'.$t.'/', "\n", $hl);
-			$hr = $m[2];
+			$hr = $m[4];
 			$hr = preg_replace('/'.$t.'/', "\n", $hr);
 			static::$html = $hl.$html.$hr;
 			//$stor_html=($m[1]||'').preg_replace(new RegExp(t,'g'),'\n')+html+(m[2]||'').replace(new RegExp(t,'g'),'\n');
