@@ -168,11 +168,14 @@ View.html = async function (html, id, parsed) {
 		return;
 	}
 
-	//let oldel = el
+	
+	/*
+	Менять или нет div слоя?
 	let newel = el.cloneNode(false)
 	el.before(newel)
 	el.remove()
 	el = newel
+	*/
 
 
 
