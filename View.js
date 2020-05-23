@@ -168,6 +168,15 @@ View.html = async function (html, id, parsed) {
 		return;
 	}
 
+	//let oldel = el
+	let newel = el.cloneNode(false)
+	el.before(newel)
+	el.remove()
+	el = newel
+
+
+
+
 	/*if (parsed) {
 		//console.log(el.dataset.parsed == parsed, parsed)
 		if (el.dataset.parsed == parsed) return true
