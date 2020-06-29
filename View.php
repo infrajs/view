@@ -134,7 +134,8 @@ class View {
 				$html .= $head;
 			}
 		}
-		static::html($html,true);
+		
+		View::html($html,true);
 	}
 	public static function html($html = null, $id = null, $parsed = null)
 	{
@@ -146,7 +147,7 @@ class View {
 			return true;
 		}
 		if ($id === true) {
-			static::$html = $html;
+			View::$html = $html;
 			return true;
 		}
 
