@@ -137,7 +137,7 @@ class View {
 		
 		View::html($html,true);
 	}
-	public static function html($html = null, $id = null, $parsed = null)
+	public static function html($html = null, $id = null, $parsed = null, $layerid = null)
 	{
 		$args = func_get_args();
 		if (is_null($html)) return static::$html;
@@ -161,6 +161,7 @@ class View {
 		if (sizeof($m) === 5) {
 			$attr = $m[2];
 			if ($parsed) $attr .= ' data-parsed="'.htmlentities($parsed).'"';
+			if ($layerid) $attr .= ' data-layerid="'.htmlentities($layerid).'"';
 			$hl = $m[1].$attr.$m[3];
 			$hl = preg_replace('/'.$t.'/', "\n", $hl);
 			$hr = $m[4];
