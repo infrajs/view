@@ -140,7 +140,7 @@ View.htmlclear = function (id) {
 	el.innerHTML = '';
 	el.style.display = 'none';
 }
-View.html = async function (html, id, parsed) {
+View.html = async function (html, id) {
 	//attr в js проверяется а в php устанавллиавется
 	if (!arguments.length) return document.body.innerHTML;
 
@@ -188,6 +188,8 @@ View.html = async function (html, id, parsed) {
 	
 	var res = (el.innerHTML = html);
 	el.style.display = '';
+	delete el.dataset.parsed //Нужно чтобы при переходе информация о серверной генерации какого-то слоя удалялалсь
+	delete el.dataset.layerid
 
 	if (!this.html.scriptautoexec) {
 
