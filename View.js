@@ -52,7 +52,7 @@ let View = {
 		this.getCookie();
 
 		var longdate = new Date();
-		longdate.setFullYear(2020);
+		longdate.setFullYear(longdate.getFullYear() + 1);
 
 
 		if (val === '') {

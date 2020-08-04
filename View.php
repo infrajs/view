@@ -10,8 +10,10 @@ class View {
 	}
 	public static function getSchema()
 	{
-		if(!empty($_SERVER['REQUEST_SCHEME']))return $_SERVER['REQUEST_SCHEME'].'://';
-		return 'http://';
+		$protocol = 'http://'; 
+		if (isset($_SERVER['HTTPS'])) $protocol = 'https://';
+		if (isset($_SERVER['REQUEST_SCHEME'])) $protocol = $_SERVER['REQUEST_SCHEME'].'://';
+		return $protocol;
 	}
 	public static function getAgent()
 	{
