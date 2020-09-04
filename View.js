@@ -140,7 +140,7 @@ View.htmlclear = function (id) {
 	el.innerHTML = '';
 	el.style.display = 'none';
 }
-View.html = async function (html, id) {
+View.html = async function (html, id, parsed = null, layerid = null) {
 	//attr в js проверяется а в php устанавллиавется
 	if (!arguments.length) return document.body.innerHTML;
 
@@ -188,6 +188,8 @@ View.html = async function (html, id) {
 	
 	var res = (el.innerHTML = html);
 	el.style.display = '';
+
+	//И нельзя для onlyclient удалять инфу так как при втором показе срабатывает что слой уже?
 	delete el.dataset.parsed //Нужно чтобы при переходе информация о серверной генерации какого-то слоя удалялалсь
 	delete el.dataset.layerid
 
