@@ -44,7 +44,7 @@ let View = {
 			this.cookies[key] = val;
 		}.bind(this));
 		//}
-		if (name) return this.cookies[name];
+		if (name) return this.cookies[name] || '';
 		return this.cookies;
 	},
 	setCookie: function (name, val) {
