@@ -33,7 +33,8 @@ let View = {
 	getCookie: function (name) {
 		//if(!this.cookies){ асинхронно установленные кукисы сервером, должны обнаруживаться, для этого разбираем куки каждый раз
 		this.cookies = {};
-		infra.forr(document.cookie.split(';'), function (cookie) {
+		const cooks = document.cookie.split(';')
+		for (const cookie of cooks) {
 			var parts = cookie.split('=');
 			var key = parts[0] || '';
 			key = key.replace(/^\s+/, '');
@@ -42,7 +43,7 @@ let View = {
 			val = val.replace(/^\s+/, '');
 			val = val.replace(/\s+$/, '');
 			this.cookies[key] = val;
-		}.bind(this));
+		}
 		//}
 		if (name) return this.cookies[name] || '';
 		return this.cookies;
